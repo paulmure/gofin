@@ -6,7 +6,7 @@ USE us_stocks;
 
 CREATE TABLE ticker (
 	id INT NOT NULL AUTO_INCREMENT,
-    symbol VARCHAR(6) NOT NULL,
+    symbol VARCHAR(6) NOT NULL UNIQUE,
     PRIMARY KEY (id)
 );
 
