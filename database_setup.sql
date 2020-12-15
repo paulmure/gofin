@@ -10,10 +10,10 @@ CREATE TABLE ticker (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE intraday_by_minute (
+CREATE TABLE minute (
 	id INT NOT NULL AUTO_INCREMENT,
     ticker_id INT NOT NULL,
-    quote_timestamp DATETIME NOT NULL,
+    timestamp DATETIME NOT NULL,
     bid DECIMAL(12, 2) NOT NULL,
     ask DECIMAL(12, 2) NOT NULL,
     bid_size INT NOT NULL,
