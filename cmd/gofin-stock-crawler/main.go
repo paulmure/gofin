@@ -33,12 +33,16 @@ func waitTillMarketOpens() {
 		case t.Minute() == 29:
 			time.Sleep(time.Second)
 		default:
-			break
+			return
 		}
 	}
 }
 
 func init() {
+	if len(os.Args) < 3 {
+		log.Fatal(fmt.Errorf("invalid arguments, please enter log path followed by ticker symbols to crawl"))
+	}
+
 	err := errors.New("")
 	marketLoc, err = time.LoadLocation("America/New_York")
 	if err != nil {
@@ -57,10 +61,6 @@ func init() {
 }
 
 func main() {
-	if len(os.Args) < 3 {
-		log.Fatal(fmt.Errorf("invalid arguments, please enter log path followed by ticker symbols to crawl"))
-	}
-
 	// Get DSN from environment for connecting to MySQL database
 	dsn := os.Getenv("US_STOCKS_DSN")
 	if dsn == "" {
