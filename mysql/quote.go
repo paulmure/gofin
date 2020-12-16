@@ -49,7 +49,7 @@ func EmptyQuote(symbol string, db *sql.DB) (Quote, error) {
 		}
 
 		// If id still comes back as 0,
-		// it means there an error in the insertion process
+		// it means there's an error in the insertion process
 		if id == 0 {
 			return res, errors.New("failed to insert new ticker into databse")
 		}
