@@ -41,11 +41,7 @@ func realTimeQuote(symbol string, q mysql.Quote) (mysql.Quote, error) {
 	}
 
 	// convert time
-	loc, err := time.LoadLocation("America/New_York")
-	if err != nil {
-		return q, err
-	}
-	q.Timestamp = time.Now().In(loc)
+	q.Timestamp = time.Now().In(marketLoc)
 
 	q.Bid = market.Bid
 	q.Ask = market.Ask

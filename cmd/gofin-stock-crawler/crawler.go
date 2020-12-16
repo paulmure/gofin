@@ -17,7 +17,7 @@ func crawlSymbol(symbol, dsn string, emptyQuote mysql.Quote, wg *sync.WaitGroup)
 			if errors.As(err, &marketClosedError{}) {
 				eventLogger.Println(err.Error())
 			} else {
-				errorLogger.Println(err.Error())
+				errorLogger.Printf("Errored occurred for %s:\n    %s\n", symbol, err.Error())
 			}
 			return
 		}

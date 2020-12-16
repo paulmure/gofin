@@ -1,12 +1,15 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
+	"time"
 )
 
 var (
+	marketLoc   *time.Location
 	errorLogger *log.Logger
 	eventLogger *log.Logger
 )
@@ -19,7 +22,29 @@ func (err marketClosedError) Error() string {
 	return fmt.Sprintf("market closed when querying for %s quote", err.symbol)
 }
 
+func waitTillMarketOpens() {
+	for {
+		t := time.Now().In(marketLoc)
+		switch {
+		case t.Hour() < 9:
+			time.Sleep(time.Hour)
+		case t.Minute() < 29:
+			time.Sleep(time.Minute)
+		case t.Minute() == 29:
+			time.Sleep(time.Second)
+		default:
+			break
+		}
+	}
+}
+
 func init() {
+	err := errors.New("")
+	marketLoc, err = time.LoadLocation("America/New_York")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	// Create log file
 	file, err := os.OpenFile(os.Args[1], os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
 	if err != nil {
@@ -48,6 +73,7 @@ func main() {
 	}
 
 	eventLogger.Println("Waiting till market opens")
+	waitTillMarketOpens()
 	eventLogger.Println("Starting data collection")
 
 	crawlSymbols(symbolsMap, dsn)
