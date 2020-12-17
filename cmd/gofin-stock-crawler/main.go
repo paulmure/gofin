@@ -39,7 +39,7 @@ func waitTillMarketOpens() {
 }
 
 func init() {
-	if len(os.Args) < 3 {
+	if len(os.Args) != 3 {
 		log.Fatal(fmt.Errorf("invalid arguments, please enter log path followed by ticker symbols to crawl"))
 	}
 
@@ -67,7 +67,12 @@ func main() {
 		log.Fatal(fmt.Errorf("cannot find DSN from environment"))
 	}
 
-	symbolsMap, err := initEmptyQuotes(os.Args[2:], dsn)
+	symbols, err := parseFile(os.Args[2])
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	symbolsMap, err := initEmptyQuotes(symbols, dsn)
 	if err != nil {
 		log.Fatal(err)
 	}
