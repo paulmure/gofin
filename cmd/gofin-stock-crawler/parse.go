@@ -11,6 +11,7 @@ func parseFile(filename string) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer file.Close()
 
 	r := csv.NewReader(file)
 	res := make([]string, 0)
